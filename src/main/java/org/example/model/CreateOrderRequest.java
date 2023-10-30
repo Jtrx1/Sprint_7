@@ -9,8 +9,7 @@ public class CreateOrderRequest {
                               int rentTime,
                               String deliveryDate,
                               String comment,
-                              String[] color)
-    {
+                              String[] color) {
         this.firstName = firstName;
         this.lastName = lastName;
         this.address = address;

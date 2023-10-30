@@ -1,4 +1,5 @@
 import io.qameta.allure.Description;
+import io.qameta.allure.Step;
 import io.qameta.allure.junit4.DisplayName;
 import io.restassured.response.Response;
 import org.example.client.CourierApiClient;
@@ -16,14 +17,17 @@ public class LoginCourierTest {
     private LoginCourierRequest loginCourierRequest;
 
     @Before
-    public void setUp(){
+    @Step("Подготавливаем тест")
+    public void setUp() {
         courierApiClient = new CourierApiClient();
         loginCourierRequest = new LoginCourierRequest("m.tuganov", "12345678");
     }
+
     @Test
     @DisplayName("Успешная авторизация")
+    @Step("Авторизация")
     @Description("Проверяем, что возвращается код 200 и id возвращается")
-    public void successfulAuthorization(){
+    public void successfulAuthorization() {
         Response createResponse = courierApiClient.loginCourier(loginCourierRequest);
         assertEquals(SC_OK, createResponse.statusCode());
         LoginCourierResponse loginCourierResponse = createResponse.as(LoginCourierResponse.class);
@@ -32,50 +36,57 @@ public class LoginCourierTest {
 
     @Test
     @DisplayName("Авторизация без логина")
+    @Step("Авторизация")
     @Description("Проверяем, что возвращается код 400 и message")
-    public void AuthorizationWithoutLogin(){
+    public void authorizationWithoutLogin() {
         loginCourierRequest.setLogin("");
         Response createResponse = courierApiClient.loginCourier(loginCourierRequest);
         assertEquals(SC_BAD_REQUEST, createResponse.statusCode());
         LoginCourierResponse loginCourierResponse = createResponse.as(LoginCourierResponse.class);
         String expected = "Недостаточно данных для входа";
-        String actual =loginCourierResponse.getMessage();
+        String actual = loginCourierResponse.getMessage();
         assertEquals(expected, actual);
     }
+
     @Test
     @DisplayName("Авторизация без пароля")
+    @Step("Авторизация")
     @Description("Проверяем, что возвращается код 400 и message")
-    public void AuthorizationWithoutPassword(){
+    public void authorizationWithoutPassword() {
         loginCourierRequest.setPassword("");
         Response createResponse = courierApiClient.loginCourier(loginCourierRequest);
         assertEquals(SC_BAD_REQUEST, createResponse.statusCode());
         LoginCourierResponse loginCourierResponse = createResponse.as(LoginCourierResponse.class);
         String expected = "Недостаточно данных для входа";
-        String actual =loginCourierResponse.getMessage();
+        String actual = loginCourierResponse.getMessage();
         assertEquals(expected, actual);
     }
+
     @Test
     @DisplayName("Авторизация неправильным логином")
+    @Step("Авторизация")
     @Description("Проверяем, что возвращается код 404 и message")
-    public void AuthorizationWithIncorrectLogin(){
-        loginCourierRequest.setLogin(loginCourierRequest.getLogin()+"1");
+    public void authorizationWithIncorrectLogin() {
+        loginCourierRequest.setLogin(loginCourierRequest.getLogin() + "1");
         Response createResponse = courierApiClient.loginCourier(loginCourierRequest);
         assertEquals(SC_NOT_FOUND, createResponse.statusCode());
         LoginCourierResponse loginCourierResponse = createResponse.as(LoginCourierResponse.class);
         String expected = "Учетная запись не найдена";
-        String actual =loginCourierResponse.getMessage();
+        String actual = loginCourierResponse.getMessage();
         assertEquals(expected, actual);
     }
+
     @Test
     @DisplayName("Авторизация неправильным паролем")
+    @Step("Авторизация")
     @Description("Проверяем, что возвращается код 400 и message")
-    public void AuthorizationWithIncorrectPassword(){
-        loginCourierRequest.setLogin(loginCourierRequest.getPassword()+"1");
+    public void authorizationWithIncorrectPassword() {
+        loginCourierRequest.setLogin(loginCourierRequest.getPassword() + "1");
         Response createResponse = courierApiClient.loginCourier(loginCourierRequest);
         assertEquals(SC_NOT_FOUND, createResponse.statusCode());
         LoginCourierResponse loginCourierResponse = createResponse.as(LoginCourierResponse.class);
         String expected = "Учетная запись не найдена";
-        String actual =loginCourierResponse.getMessage();
+        String actual = loginCourierResponse.getMessage();
         assertEquals(expected, actual);
     }
 

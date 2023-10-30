@@ -3,7 +3,6 @@ package org.example.model;
 public class LoginCourierResponse {
 
 
-
     private String message;
     public String id;
 
@@ -19,6 +18,7 @@ public class LoginCourierResponse {
     public void setId(String id) {
         this.id = id;
     }
+
     public String getMessage() {
         return message;
     }

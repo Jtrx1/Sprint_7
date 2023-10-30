@@ -28,6 +28,7 @@ public class CreateCourier {
     public String getLogin() {
         return login;
     }
+
     public String getFirstName() {
         return firstName;
     }
@@ -35,6 +36,7 @@ public class CreateCourier {
     public void setFirstName(String firstName) {
         this.firstName = firstName;
     }
+
     public void setLogin(String login) {
         this.login = login;
     }
